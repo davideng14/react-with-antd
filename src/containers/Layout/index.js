@@ -1,3 +1,3 @@
-import { LayoutWithHeader } from './LayoutWithHeader';
+import LayoutWithHeader from './LayoutWithHeader';
 
 export { LayoutWithHeader };

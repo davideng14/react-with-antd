@@ -1,0 +1,7 @@
+html body {
+    background-color: black;
+}
+
+#root > section.container {
+    background-color: transparent;
+}

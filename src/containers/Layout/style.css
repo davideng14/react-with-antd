@@ -1,0 +1,17 @@
+header {
+    background-color: #27292d;
+    display: flex;
+    align-items: center;
+}
+
+header h2{
+    display: inline-block;
+    color: white;
+    padding: 0em 1.5em;
+    flex: 1;
+}
+
+ul.menu {
+    background-color: #27292d;
+    color: white;
+}
