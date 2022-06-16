@@ -1,6 +1,8 @@
-import Genome from '../../containers/Genome';
+import React from 'react';
+import Dashboard from '../../containers/Dashboard';
 import Login from '../../containers/Login';
 import { Layout } from 'antd';
+import { AuthProvider } from './AuthContext';
 
 import {
     BrowserRouter as Router,
@@ -12,22 +14,24 @@ const { Content } = Layout;
 
 function Torre() {
   return (
-    <Layout className="container">
-        <div className="wrapper-container">
-            <Content>
-                <Router>
-                    <Switch>
-                        <Route path="/">
-                            <Login/>
-                        </Route>
-                        <Route path="/genome">
-                            <Genome />
-                        </Route>
-                    </Switch>
-                </Router>
-            </Content>
-        </div>
-    </Layout>
+    <AuthProvider>
+        <Layout className="container">
+            <div className="wrapper-container">
+                <Content>
+                    <Router>
+                        <Switch>
+                            <Route path="/dashboard">
+                                <Dashboard />
+                            </Route>
+                            <Route exact={true} path="/">
+                                <Login/>
+                            </Route>
+                        </Switch>
+                    </Router>
+                </Content>
+            </div>
+        </Layout>
+    </AuthProvider>
   );
 }
 

@@ -1,5 +1,4 @@
 import { API_URL } from './config';
-import * as R from 'ramda';
 
 const fetchJson = (requestData) => {
     return fetch(requestData).then(res => ({ ok: res.ok, data: res.json() }))

@@ -1,8 +1,10 @@
-function Header() {  
+import Menu from './Menu';
 
+function Header() {  
   return (
     <header>
-        header
+      <h2>POC</h2>
+      <Menu/>
     </header>
   );
 }

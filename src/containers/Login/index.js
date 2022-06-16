@@ -1,48 +1,62 @@
-import { useState } from 'react';
 import { LayoutWithHeader } from '../Layout';
 import './style.css';
 import { Form, Row, Button, Input, Col } from 'antd';
-import { fetchUserInformation } from '../../api';
-
+import useAuth from '../App/AuthContext';
+import { useEffect } from 'react';
+import { useHistory } from 'react-router-dom';
 
 function Login() {
-    const [username, setUsername] = useState("");
-    const [errorMessage, setErrorMessage] = useState("");
 
-    const onLogin = async event => {
-        event.preventDefault(); 
-        try{
-            const userData = await fetchUserInformation({ username });
-            console.log('fetching User ...', userData);
-        } catch (error) {
-            setErrorMessage(error.message);
-        }
+    const { login, loading, error, user } = useAuth();
+    const history = useHistory();
 
+    const onLogin = values => {
+        login(values.username, values.password);
     }
 
-    const onChangeUsername = event => setUsername(event.target.value);
-    
+    useEffect(() => {
+        console.log('user: ', user);
+        if (user) {
+            history.push('/dashboard');
+        }
+    }, [user, history]);
 
     return(
         <LayoutWithHeader>
-            <Row>
-                <Col xs={{span: 20, offset: 2}} md={{span: 8, offset: 8}} >
-                    <form onSubmit={onLogin} data-testid="login-form" className="login">
-                        <h2>Your username:</h2>
-
-                        {errorMessage && <p className={'error-message'}>{errorMessage}</p>}
-                        <Form.Item>
-                            <Input size="large" placeholder="user" value={username} onChange={onChangeUsername} required/>
+            <Row gutter={[24, 16]}>
+                <Col xs={{span: 20, offset: 2}} md={{span: 10, offset: 6}} >
+                    <Form 
+                        onFinish={onLogin} 
+                        className="login"
+                        labelCol={{ span: 8 }}
+                        wrapperCol={{ span: 16 }}
+                    >
+                        <Form.Item
+                            label="Username"
+                            name="username"
+                            rules={[{ required: true, message: 'Please input your username!' }]}
+                        >
+                            <Input size="large" placeholder="username" required/>
+                        </Form.Item>
+                        <Form.Item
+                            label="Password"
+                            name="password"
+                            rules={[{ required: true, message: 'Please input your password!' }]}
+                        >
+                            <Input.Password size="large" placeholder="password" required/>
                         </Form.Item>
                         <Form.Item>
-                            <Button type="primary" htmlType="submit">
-                                Continue
-                            </Button>
+                            {loading ? 
+                                <p>
+                                    Loading...
+                                </p>:
+                                <Button type="primary" htmlType="submit">
+                                    login
+                                </Button>
+                            }
                         </Form.Item>
-                        <Row>
-                            
-                        </Row>
-                    </form>
+                    </Form>
+                    {error && <p> Invalid username or password</p>}
                 </Col>
             </Row>
         </LayoutWithHeader>
